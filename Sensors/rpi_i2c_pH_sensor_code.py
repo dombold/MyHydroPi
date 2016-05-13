@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
+# Import the required python modules for the pH Sensor
+
 import io  # used to create file streams
 import fcntl  # used to access I2C parameters like addresses
-
 import time  # used for sleep delay and timestamps
 import string  # helps parse strings
 
@@ -10,15 +11,12 @@ import string  # helps parse strings
 class atlas_i2c:
     long_timeout = 1.5  # the timeout needed to query readings and calibrations
     short_timeout = .5  # timeout for regular commands
-    default_bus = 1  # the default bus for I2C on the newer Raspberry Pis,
-                     # certain older boards use bus 0
+    default_bus = 1  # the default bus for I2C on the newer Raspberry Pis, certain older boards use bus 0
     default_address = 99  # the default address for the pH sensor
 
     def __init__(self, address=default_address, bus=default_bus):
-        # open two file streams, one for reading and one for writing
-        # the specific I2C channel is selected with bus
-        # it is usually 1, except for older revisions where its 0
-        # wb and rb indicate binary read and write
+        # open two file streams, one for reading and one for writing the specific I2C channel is selected with bus
+        # it is usually 1, except for older revisions where its 0 wb and rb indicate binary read and write
         self.file_read = io.open("/dev/i2c-" + str(bus), "rb", buffering=0)
         self.file_write = io.open("/dev/i2c-" + str(bus), "wb", buffering=0)
 
@@ -26,9 +24,8 @@ class atlas_i2c:
         self.set_i2c_address(address)
 
     def set_i2c_address(self, addr):
-        # set the I2C communications to the slave specified by the address
-        # The commands for I2C dev using the ioctl functions are specified in
-        # the i2c-dev.h file from i2c-tools
+        # set the I2C communications to the slave specified by the address. The commands for I2C dev using the ioctl functions
+        # are specified in the i2c-dev.h file from i2c-tools
         I2C_SLAVE = 0x703
         fcntl.ioctl(self.file_read, I2C_SLAVE, addr)
         fcntl.ioctl(self.file_write, I2C_SLAVE, addr)
@@ -39,25 +36,21 @@ class atlas_i2c:
         self.file_write.write(string)
 
     def read(self, num_of_bytes=31):
-        # reads a specified number of bytes from I2C,
-        # then parses and displays the result
+        # reads a specified number of bytes from I2C, then parses and displays the result
         res = self.file_read.read(num_of_bytes)  # read from the board
         # remove the null characters to get the response
         response = filter(lambda x: x != '\x00', res)
         if(ord(response[0]) == 1):  # if the response isnt an error
-            # change MSB to 0 for all received characters except the first
-            # and get a list of characters
+            # change MSB to 0 for all received characters except the first and get a list of characters
             char_list = map(lambda x: chr(ord(x) & ~0x80), list(response[1:]))
-            # NOTE: having to change the MSB to 0 is a glitch in the
-            # raspberry pi, and you shouldn't have to do this!
+            # NOTE: having to change the MSB to 0 is a glitch in the raspberry pi, and you shouldn't have to do this!
             # convert the char list to a string and returns it
             return "Command succeeded " + ''.join(char_list)
         else:
             return "Error " + str(ord(response[0]))
 
     def query(self, string):
-        # write a command to the board, wait the correct timeout,
-        # and read the response
+        # write a command to the board, wait the correct timeout, and read the response
         self.write(string)
 
         # the read and calibration commands require a longer timeout
@@ -77,8 +70,7 @@ class atlas_i2c:
 
 
 def main():
-    device = atlas_i2c()  # creates the I2C port object, specify the address
-                       # or bus if necessary
+    device = atlas_i2c()  # creates the I2C port object, specify the address or bus if necessary
     print(">> Atlas Scientific sample code")
     print(">> Any commands entered are passed to the board via I2C except:")
     print(">> Address,xx changes the I2C address the Raspberry Pi communicates with.")
@@ -90,8 +82,7 @@ def main():
     while True:
         input = raw_input("Enter command: ")
 
-        # address command lets you change which address
-        # the Raspberry Pi will poll
+        # address command lets you change which address the Raspberry Pi will poll
         if(input.upper().startswith("ADDRESS")):
             addr = int(string.split(input, ',')[1])
             device.set_i2c_address(addr)
@@ -101,8 +92,7 @@ def main():
         elif(input.upper().startswith("POLL")):
             delaytime = float(string.split(input, ',')[1])
 
-            # check for polling time being too short,
-            # change it to the minimum timeout if too short
+            # check for polling time being too short, change it to the minimum timeout if too short
             if(delaytime < atlas_i2c.long_timeout):
                 print("Polling time is shorter than timeout, setting polling time to %0.2f" %  atlas_i2c.long_timeout)
                 delaytime = atlas_i2c.long_timeout
@@ -115,8 +105,7 @@ def main():
                 while True:
                     print(device.query("R"))
                     time.sleep(delaytime - atlas_i2c.long_timeout)
-            except KeyboardInterrupt:  # catches the ctrl-c command,
-                                      # which breaks the loop above
+            except KeyboardInterrupt:  # catches the ctrl-c command, which breaks the loop above
                 print("Continuous polling stopped")
 
         # if not a special keyword, pass commands straight to board
