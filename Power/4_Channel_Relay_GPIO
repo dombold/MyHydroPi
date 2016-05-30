@@ -1,0 +1,34 @@
+import RPi.GPIO as GPIO  # Import GPIO Module
+from time import sleep  # Import sleep Module for timing
+
+GPIO.setmode(GPIO.BCM)  # Configures how we are describing our pin numbering
+GPIO.setwarnings(False)  # Disable Warnings
+
+#Set our GPIO pins to outputs and set them to off
+
+GPIO.setup(22, GPIO.OUT)
+GPIO.output(22, True)
+GPIO.setup(23, GPIO.OUT)
+GPIO.output(23, True)
+GPIO.setup(24, GPIO.OUT)
+GPIO.output(24, True)
+GPIO.setup(25, GPIO.OUT)
+GPIO.output(25, True)
+
+
+while (True):
+
+# Turn all relays ON
+    GPIO.output(22, False)
+    GPIO.output(23, False)
+    GPIO.output(24, False)
+    GPIO.output(25, False)
+# Sleep for 5 seconds
+    sleep(5)
+# Turn all relays OFF
+    GPIO.output(22, True)
+    GPIO.output(23, True)
+    GPIO.output(24, True)
+    GPIO.output(25, True)
+# Sleep for 5 seconds
+    sleep(5)
