@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
 import smtplib
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
+
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 fromaddr = "FromUser@gmail.com"
@@ -22,6 +23,3 @@ server.login(fromaddr, "FromUserEmailPassword")
 text = msg.as_string()
 server.sendmail(fromaddr, toaddr, text)
 server.quit()
-
-
-
