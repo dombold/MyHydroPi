@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
 import smtplib
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
-from email.MIMEBase import MIMEBase
+
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
 from email import encoders
 
 fromaddr = "FromUser@gmail.com"
