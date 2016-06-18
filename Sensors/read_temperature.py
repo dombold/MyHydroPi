@@ -62,9 +62,9 @@ def read_temp(temp_sensor):
 # Get Temperature
 while True:
     print "Temperature Sensor 1 = ", read_temp(temp_sensor_1)
-    #Python print command syntax below
+    #Python 3.x print command syntax below
     #print("Temperature Sensor 1 = ", read_temp(temp_sensor_1))
-    #Insert data file name for attitional sensors below and remove the "#"
+    #Insert data file name for attitional sensors below
     #print"Temperature Sensor 2 = ", read_temp(temp_sensor_2)
     #print"Temperature Sensor 3 = ", read_temp(temp_sensor_3)
     sleep(2)   # Read every 2 seconds
