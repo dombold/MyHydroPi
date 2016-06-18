@@ -8,7 +8,7 @@
 # This program is designed to read the temperature in Celcius or Fahrenheit
 # from a DS18B20 waterproof temperature sensor. To read more than one
 # temperature sensor remove the # symbol from lines 27,28 and 63,64
-# as required.
+# and update as required.
 #
 # For Python 3.x compatibility comment out line 64 and uncomment line 66
 ##############################################################################
