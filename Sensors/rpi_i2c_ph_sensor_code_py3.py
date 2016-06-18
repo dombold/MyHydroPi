@@ -7,6 +7,7 @@
 #
 ##############################################################################
 
+
 import io  # used to create file streams
 import fcntl  # used to access I2C parameters like addresses
 
