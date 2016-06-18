@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+##############################################################################
+# Originally written by Atlas Scientific
+#
+# Updated to Python 3.2 by Dominic Bolding for myhydropi.com - 2016
+#
+##############################################################################
+
 import io  # used to create file streams
 import fcntl  # used to access I2C parameters like addresses
 
