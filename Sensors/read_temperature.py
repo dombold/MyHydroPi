@@ -1,9 +1,22 @@
 #!/usr/bin/env python
 
+##############################################################################
+# Written by Dominic Bolding for myhydropi.com - 2016
+#
+# Feel free to use and modify this code for you own use in any way.
+#
+# This program is designed to read the temperature in Celcius or Fahrenheit
+# from a DS18B20 waterproof temperature sensor. To read more than one
+# temperature sensor remove the # symbol from lines 27,28 and 63,64
+# as required.
+#
+# For Python 3.x compatibility comment out line 64 and uncomment line 66
+##############################################################################
+
 #Required modules for Temperature Sensor
 
 import os
-import time
+from time import sleep  # Import sleep module for timing
 
 # Load Raspberry Pi Drivers
 
@@ -35,7 +48,7 @@ def read_temp(temp_sensor):
 
     lines = read_temp_raw(temp_sensor)
     while lines[0].strip()[-3:] != 'YES':
-        time.sleep(0.2)
+        sleep(0.2)
         lines = read_temp_raw(temp_sensor)
     temp_result = lines[1].find('t=')
     if temp_result != -1:
@@ -48,8 +61,10 @@ def read_temp(temp_sensor):
 
 # Get Temperature
 while True:
-    print"Temperature Sensor 1 = ", read_temp(temp_sensor_1)
+    print "Temperature Sensor 1 = ", read_temp(temp_sensor_1)
+    #Python print command syntax below
+    #print("Temperature Sensor 1 = ", read_temp(temp_sensor_1))
     #Insert data file name for attitional sensors below and remove the "#"
     #print"Temperature Sensor 2 = ", read_temp(temp_sensor_2)
     #print"Temperature Sensor 3 = ", read_temp(temp_sensor_3)
-    time.sleep(2)   # Read every 2 seconds
+    sleep(2)   # Read every 2 seconds
