@@ -78,7 +78,7 @@ class atlas_i2c:
 
 def main():
     device = atlas_i2c()  # creates the I2C port object, specify the address
-                       # or bus if necessary
+                          # or bus if necessary
     print ">> Atlas Scientific sample code"
     print ">> Any commands entered are passed to the board via I2C except:"
     print (">> Address,xx changes the I2C address the Raspberry Pi "
