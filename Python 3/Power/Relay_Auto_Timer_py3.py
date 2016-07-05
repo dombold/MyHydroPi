@@ -47,7 +47,7 @@ GPIO.setwarnings(False)
 # Global Variables
 
 outputpins = [22, 23, 24, 25]  # Set the GPIO pin numbers that are required
-gponum = ["gpo1", "gpo2", "gpo3", "gpo4"]  # List of relay names in MySQL
+relaynum = ["relay1", "relay2", "relay3", "relay4"]  # Relay names in MySQL
 relaycount = range(1, 5)  # Number of relays to be controlled
 numdtpairs = 4  # Number of Start/Stop pairs per relay
 
@@ -107,7 +107,7 @@ def timercheck(timer_data, relay):
 
 while True:  # Repeat the code indefinitely
     override = read_override_data()
-    for i, j, z in zip(relaycount, outputpins, gponum):
+    for i, j, z in zip(relaycount, outputpins, relaynum):
         if override[i] == "auto":
             relay = j
             relayon = "False"
