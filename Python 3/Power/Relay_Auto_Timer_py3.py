@@ -13,12 +13,6 @@
 # at set times stored in a MySql database. The timers can be overridden
 # to force the Relays either on or off.
 #
-# While the code looks counter intuitive by setting the GPIO pin to true
-# to turn off the relay this is actually correct due to the fact that the
-# relay that I am using is configured as active low.
-#
-# If you have a relay that is active high or are using LED's then reverse the
-# True and False settings'
 #
 # For Python 3 I have used cymysql module to connect to the database
 # to add the module you need to enter the following commands
@@ -55,7 +49,7 @@ numdtpairs = 4  # Number of Start/Stop pairs per relay
 
 for i in outputpins:
     GPIO.setup(i, GPIO.OUT)
-    GPIO.output(i, True)
+    GPIO.output(i, False)
 sleep(2)
 
 # Read the manual setting from the database
@@ -116,14 +110,14 @@ while True:  # Repeat the code indefinitely
                 timer_data = get_relay_timer_data(z, dtpair)
                 relayon = timercheck(timer_data, relay)
                 if relayon == "True":
-                    GPIO.output(relay, False)
+                    GPIO.output(relay, True)
                     break
                 elif relayon == "False":
                     dtpair += 1
                 if dtpair == (numdtpairs + 1):
-                    GPIO.output(relay, True)
+                    GPIO.output(relay, False)
         elif override[i] == "on":
-            GPIO.output(j, False)  # turn relay on
+            GPIO.output(j, True)  # turn relay on
         elif override[i] == "off":
-            GPIO.output(j, True)  # turn relay off
+            GPIO.output(j, False)  # turn relay off
     sleep(1)
