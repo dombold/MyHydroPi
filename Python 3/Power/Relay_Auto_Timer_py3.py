@@ -13,7 +13,6 @@
 # at set times stored in a MySql database. The timers can be overridden
 # to force the Relays either on or off.
 #
-#
 # For Python 3 I have used cymysql module to connect to the database
 # to add the module you need to enter the following commands
 #
