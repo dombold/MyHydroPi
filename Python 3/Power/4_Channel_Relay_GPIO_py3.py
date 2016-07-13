@@ -12,12 +12,6 @@
 # This program is designed to turn 4 GPIO ports or relays on and off
 # every 5 seconds.
 #
-# While the code looks counter intuitive by setting the GPIO pin to true
-# to turn off the relay this is actually correct due to the fact that the
-# relay that I am using is configured as active low.
-#
-# If you have a relay that is active high or are using LED's then reverse the
-# True and False settings'
 #
 ##############################################################################
 
@@ -33,15 +27,15 @@ OutputPins = [22, 23, 24, 25]  # Set the GPIO pins that are required
 
 for i in OutputPins:
     GPIO.setup(i, GPIO.OUT)
-    GPIO.output(i, True)
+    GPIO.output(i, False)
 
 while (True):
-# Step through each GPIO pin and set Low
-    for i in OutputPins:
-        GPIO.output(i, False)
-# Sleep for 5 seconds
-    sleep(5)
-# Step through each GPIO pin and set High
+# Step through each GPIO pin and set On
     for i in OutputPins:
         GPIO.output(i, True)
+# Sleep for 5 seconds
+    sleep(5)
+# Step through each GPIO pin and set Off
+    for i in OutputPins:
+        GPIO.output(i, False)
     sleep(5)
