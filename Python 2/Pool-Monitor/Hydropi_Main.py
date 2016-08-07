@@ -229,11 +229,25 @@ def create_database():
     return
 
 
-def create_relay_tables():
+def open_database_connection():
 
     conn = MySQLdb.connect(servername, username, password, dbname)
     curs = conn.cursor()
-    curs.execute("SET sql_notes = 0; ")
+    curs.execute("SET sql_notes = 0; ")  # Hide Warnings
+
+    return conn, curs
+
+
+def close_database_connection(conn, curs):
+
+    curs.execute("SET sql_notes = 1; ")
+    conn.commit()
+    conn.close()
+
+
+def create_relay_tables():
+
+    conn, curs = open_database_connection()
 
     relaytimer = []
     dtcount = 0
@@ -256,18 +270,14 @@ def create_relay_tables():
                         " VALUES({},NULL,NULL)".format(tablename, pairs))
         dtcount += 1
 
-    curs.execute("SET sql_notes = 1; ")
-    conn.commit()
-    conn.close()
+    close_database_connection(conn, curs)
 
     return relaytimer
 
 
 def create_timer_override_table():
 
-    conn = MySQLdb.connect(servername, username, password, dbname)
-    curs = conn.cursor()
-    curs.execute("SET sql_notes = 0; ")
+    conn, curs = open_database_connection()
 
     curs.execute("CREATE TABLE IF NOT EXISTS timer_override "
                 "(pk INT UNSIGNED PRIMARY KEY);")
@@ -285,17 +295,14 @@ def create_timer_override_table():
         except:
             pass
 
-    curs.execute("SET sql_notes = 1; ")
-    conn.commit()
-    conn.close()
+    close_database_connection(conn, curs)
+
     return
 
 
 def create_sensors_table():
 
-    conn = MySQLdb.connect(servername, username, password, dbname)
-    curs = conn.cursor()
-    curs.execute("SET sql_notes = 0; ")
+    conn, curs = open_database_connection()
 
     curs.execute("CREATE TABLE IF NOT EXISTS sensors (timestamp DATETIME);")
 
@@ -307,17 +314,14 @@ def create_sensors_table():
             except:
                 pass
 
-    curs.execute("SET sql_notes = 1; ")
-    conn.commit()
-    conn.close()
+    close_database_connection(conn, curs)
+
     return
 
 
 def create_settings_table():
 
-    conn = MySQLdb.connect(servername, username, password, dbname)
-    curs = conn.cursor()
-    curs.execute("SET sql_notes = 0; ")
+    conn, curs = open_database_connection()
 
     curs.execute("CREATE TABLE IF NOT EXISTS settings "
                 "(pk TINYINT(1) UNSIGNED PRIMARY"
@@ -376,9 +380,8 @@ def create_settings_table():
             except:
                 pass
 
-    curs.execute("SET sql_notes = 1; ")
-    conn.commit()
-    conn.close()
+    close_database_connection(conn, curs)
+
     return
 
     # Remove excess columns from tables in the database
@@ -386,9 +389,7 @@ def create_settings_table():
 
 def remove_excess_timer_override_and_relay_database_entries():
 
-    conn = MySQLdb.connect(servername, username, password, dbname)
-    curs = conn.cursor()
-    curs.execute("SET sql_notes = 0; ")
+    conn, curs = open_database_connection()
 
     curs.execute("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE "
                 "TABLE_NAME = 'timer_override';")
@@ -405,17 +406,14 @@ def remove_excess_timer_override_and_relay_database_entries():
         colnum = curs.fetchone()
         colnum = (int(colnum[0])) - 1
 
-    curs.execute("SET sql_notes = 1; ")
-    conn.commit()
-    conn.close()
+    close_database_connection(conn, curs)
+
     return
 
 
 def remove_excess_datetime_pairs():
 
-    conn = MySQLdb.connect(servername, username, password, dbname)
-    curs = conn.cursor()
-    curs.execute("SET sql_notes = 0; ")
+    conn, curs = open_database_connection()
 
     dtcount = 0
 
@@ -424,17 +422,14 @@ def remove_excess_datetime_pairs():
                     .format(relay, numdtpairs[dtcount]))
         dtcount += 1
 
-    curs.execute("SET sql_notes = 1; ")
-    conn.commit()
-    conn.close()
+    close_database_connection(conn, curs)
+
     return
 
 
 def remove_unused_sensors():
 
-    conn = MySQLdb.connect(servername, username, password, dbname)
-    curs = conn.cursor()
-    curs.execute("SET sql_notes = 0; ")
+    conn, curs = open_database_connection()
 
     for key, value in sensors.items():
         if value["is_connected"] is False:
@@ -444,17 +439,14 @@ def remove_unused_sensors():
             except:
                 pass
 
-    curs.execute("SET sql_notes = 1; ")
-    conn.commit()
-    conn.close()
+    close_database_connection(conn, curs)
+
     return
 
 
 def remove_unused_sensors_settings():
 
-    conn = MySQLdb.connect(servername, username, password, dbname)
-    curs = conn.cursor()
-    curs.execute("SET sql_notes = 0; ")
+    conn, curs = open_database_connection()
 
     for key, value in sensors.items():
         if value["is_connected"] is False:
@@ -466,9 +458,8 @@ def remove_unused_sensors_settings():
             except:
                 pass
 
-    curs.execute("SET sql_notes = 1; ")
-    conn.commit()
-    conn.close()
+    close_database_connection(conn, curs)
+
     return
 
 # Read in the data from the Temp Sensor file
@@ -510,9 +501,7 @@ def log_sensor_readings(all_curr_readings):
 
     # Create a timestamp and store all readings on the MySQL database
 
-    conn = MySQLdb.connect(servername, username, password, dbname)
-    curs = conn.cursor()
-    curs.execute("SET sql_notes = 0; ")
+    conn, curs = open_database_connection()
 
     curs.execute("INSERT INTO sensors (timestamp) VALUES(now());")
     curs.execute("SELECT MAX(timestamp) FROM sensors")
@@ -526,9 +515,8 @@ def log_sensor_readings(all_curr_readings):
         except:
             pass
 
-    curs.execute("SET sql_notes = 1; ")
-    conn.commit()
-    conn.close()
+    close_database_connection(conn, curs)
+
     return
 
 
@@ -608,9 +596,7 @@ def get_settings_table_values():
     # divide offset percent by 100 to convert to decimal
     setting_values["offset_percent"] = (setting_values["offset_percent"] / 100)
 
-    curs.execute("SET sql_notes = 1; ")
-    conn.commit()
-    conn.close()
+    close_database_connection(conn, curs)
 
     return setting_values
 
@@ -631,7 +617,7 @@ def send_email(alert_readings):
 
     # Build email and send
 
-    fromaddr = "FromEmail.Address.com"
+    fromaddr = "FromEmail@gmail.com"
     toaddr = all_settings["to_email"]
     alladdr = toaddr.split(",")
     msg = MIMEMultipart()
@@ -641,8 +627,8 @@ def send_email(alert_readings):
 
     body = ("Hi\n\nThis is your Pool\n\nYou should know that the following "
     "sensor(s) are indicating that there is a problem that needs your "
-    "attention\n{}\nPlease check this by logging into\n\nwww.dombold.com\n\n"
-    "Regards\n\nYour HydroPi").format(out_of_limit_sensors.upper())
+    "attention\n{}\nPlease check this by logging into\n\nwww.yourwebsite.com"
+    "\n\n Regards\n\nYour HydroPi").format(out_of_limit_sensors.upper())
 
     msg.attach(MIMEText(body, 'plain'))
 
@@ -715,16 +701,13 @@ def reset_pause_readings():
 
     # Reset pause flag to restart sensor readings
 
-    conn = MySQLdb.connect(servername, username, password, dbname)
-    curs = conn.cursor()
-    curs.execute("SET sql_notes = 0; ")
+    conn, curs = open_database_connection()
 
     curs.execute("UPDATE IGNORE settings SET pause_readings = False "
                  "WHERE pk=1;")
 
-    curs.execute("SET sql_notes = 1; ")
-    conn.commit()
-    conn.close()
+    close_database_connection(conn, curs)
+
     return
 
 
@@ -732,16 +715,12 @@ def read_timer_override_data():
 
     # Read whether the Relay should be On, Off or using the timer
 
-    conn = MySQLdb.connect(servername, username, password, dbname)
-    curs = conn.cursor()
-    curs.execute("SET sql_notes = 0; ")
+    conn, curs = open_database_connection()
 
     curs.execute("SELECT * FROM timer_override WHERE pk=(1)")
     override_timer_values = curs.fetchone()
 
-    curs.execute("SET sql_notes = 1; ")
-    conn.commit()
-    conn.close()
+    close_database_connection(conn, curs)
 
     return override_timer_values
 
@@ -750,16 +729,12 @@ def read_timer_override_data():
 
 def get_relay_timer_start_stop_data(tablename, row):
 
-    conn = MySQLdb.connect(servername, username, password, dbname)
-    curs = conn.cursor()
-    curs.execute("SET sql_notes = 0; ")
+    conn, curs = open_database_connection()
 
     curs.execute("SELECT * FROM {} WHERE pk={}".format(tablename, row))
     relay_timer_values = curs.fetchone()
 
-    curs.execute("SET sql_notes = 1; ")
-    conn.commit()
-    conn.close()
+    close_database_connection(conn, curs)
 
     return relay_timer_values
 
@@ -910,7 +885,7 @@ misc_setting = {"offset_percent": 2,  # Stop toggling when close to alert value
                 "email_reset_delay": 172800,  # 60x60x24x2 = 2 Days
                 "read_sensor_delay": 290,  # 60x5 = 5 Minutes
                 "pause_reset_delay": 1800,  # 60x30 = 30 Minutes
-                "to_email": "dominic_bolding@hotmail.com"}
+                "to_email": "ToEmail@Address.com"}
 
 # Define MySQL database login settings
 
@@ -947,8 +922,11 @@ pause_loops = 0
 # Sanity Checks
 
 check_number_of_relays_equals_start_stop_pairs()
-set_GPIO_pins()
 check_for_only_one_reference_temperature()
+
+# Configure relay GPIO ports
+
+set_GPIO_pins()
 
 # Build/Remove MySQL Database Entries
 
