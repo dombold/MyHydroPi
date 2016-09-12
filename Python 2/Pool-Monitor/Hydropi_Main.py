@@ -85,7 +85,7 @@ from email.MIMEMultipart import MIMEMultipart
 
 #sleep(10)
 
-# Load Raspberry Pi Drivers
+# Load Raspberry Pi Drivers for 1-Wire Temperature Sensor
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -465,9 +465,9 @@ def remove_unused_sensors_settings():
 # Read in the data from the Temp Sensor file
 
 
-def read_1_wire_temp_raw():
+def read_1_wire_temp_raw(temp_num):
 
-        f = open(sensors["temp_1"]["ds18b20_file"], 'r')
+        f = open(sensors[temp_num]["ds18b20_file"], 'r')
         lines = f.readlines()
         f.close()
 
@@ -476,9 +476,9 @@ def read_1_wire_temp_raw():
 # Process the Temp Sensor file for errors and convert to degrees C
 
 
-def read_1_wire_temp():
+def read_1_wire_temp(temp_num):
 
-    lines = read_1_wire_temp_raw()
+    lines = read_1_wire_temp_raw(temp_num)
 
     while lines[0].strip()[-3:] != 'YES':
         sleep(0.2)
@@ -531,7 +531,7 @@ def read_sensors():
     for key, value in sensors.items():
         if value["is_connected"] is True:
             if value["sensor_type"] == "1_wire_temp":
-                sensor_reading = (round(float(read_1_wire_temp()),
+                sensor_reading = (round(float(read_1_wire_temp(key)),
                                  value["accuracy"]))
 
                 all_curr_readings.append([value["name"], sensor_reading])
