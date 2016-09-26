@@ -104,25 +104,23 @@ echo "                          </div>\n";
                             </div>
                         </div>
                         <?php
-                            // Read the relays that are connected from the database and create a row for each
                             include "php/relay_table_names.php";
-                            foreach ($relaynames as $title) {
+                            $relay_num = count($relaynames);
+                            for ($x = 1; $x <= $relay_num; $x++) {
 echo "                      \n";
 echo "                      <div class=\"row\" style=\"border-bottom:2px solid\">\n";
 echo "                          <div class=\"text-center col-sm-6 col-xs-12\">\n";
-echo "                              <h4 id=\"" .$title. "_name\"></h4>\n";
+echo "                              <h4 id=\"" .$relaynames[$x]. "_name\"></h4>\n";
 echo "                          </div>\n";
-echo "                          <div id=\"" .$title. "_state\" class=\"text-center col-sm-5 col-xs-10\">\n";
+echo "                          <div id=\"" .$relaynames[$x]. "_state\" class=\"text-center col-sm-5 col-xs-10\">\n";
 echo "                              <div class=\"btn-group btn-group-md\" role=\"group\">\n";
-                                    // Create buttons to select on, off or auto for each relay
-echo "                                  <button type=\"button\" class=\"btn btn-success\" onclick=\"set_power_state('on', '". $title ."')\">On</button>\n";
-echo "                                  <button type=\"button\" class=\"btn btn-warning\" onclick=\"set_power_state('auto', '". $title ."')\">Auto</button>\n";
-echo "                                  <button type=\"button\" class=\"btn btn-danger\" onclick=\"set_power_state('off', '". $title ."')\">Off</button>\n";
+echo "                                  <button type=\"button\" class=\"btn btn-success\" onclick=\"set_power_state('on', '". $relaynames[$x] ."')\">On</button>\n";
+echo "                                  <button type=\"button\" class=\"btn btn-warning\" onclick=\"set_power_state('auto', '". $relaynames[$x] ."')\">Auto</button>\n";
+echo "                                  <button type=\"button\" class=\"btn btn-danger\" onclick=\"set_power_state('off', '". $relaynames[$x] ."')\">Off</button>\n";
 echo "                              </div>\n";
 echo "                          </div>\n";
 echo "                          <div class=\"text-center col-sm-1 col-xs-2\" style=\"background-color: #E0E0E0\">\n";
-                                    // Show the current state of the relay, On or Off
-echo "                              <h4 id=\"" .$title. "_curr\"></h4>\n";
+echo "                              <h4 id=\"" .$relaynames[$x]. "_curr\"></h4>\n";
 echo "                          </div>\n";
 echo "                      </div>\n";
                             }
