@@ -30,18 +30,17 @@
 ?>
         <div class="container">
                 <?php
-                    // Create a panel for each relay in the database
                     include "php/relay_table_names.php";
                     $loop = 0;
-                    foreach ($relaynames as $title) {
+                    $relay_num = count($relaynames);
+                    for ($x = 1; $x <= $relay_num; $x++) {
                         $loop += 1;
 echo "                      <div class=\"col-xs-12\">\n";
 echo "                        <div class=\"panel panel-info\">\n";
 echo "                            <div class=\"panel-heading\">\n";
-echo "                                <h2 class=\"panel-title text-center\" id=\"".$title."_name\"></h2>\n";
+echo "                                <h2 class=\"panel-title text-center\" id=\"".$relaynames[$x]."_name\"></h2>\n";
 echo "                            </div>\n";
 echo "                            <div class=\"panel-body\" style=\"padding-left:0px; padding-right:0px; padding-bottom:0px;\">\n";
-                                  // Create a form in each panel containing an input for each datetime pair that is in the database for that relay
 echo "                            <form class=\"form\" method=\"POST\" action=\"/php/update_timers.php\">\n";
 echo "                                <fieldset>\n";
 echo "                                    <div class=\"form-group row col-xs-12 center-block\" style=\"margin-bottom: 0px;\">\n";
@@ -59,12 +58,10 @@ echo "                                        </div>\n";
 echo "                                        <div class=\"col-sm-8 col-md-4 col-xs-12\" style=\"padding-bottom:5px; padding-top:5px;\">\n";
 echo "                                            <input name=\"gpostoptime" .$i. "\" class=\"form-control input-md text-center btn-primary\" id=\"gpo" .$loop. "stoptime" .$i. "\" type=\"datetime\" autocomplete=\"off\">\n";
 echo "                                        </div>\n";
-                                              // populate each input with the current datetime pair from the database
                                               include "php/initial_timer_data.php";
                                               }
-echo "                                        <input name=\"gponumber\" type=\"hidden\" value=\"" .$title. "\">\n";
+echo "                                        <input name=\"gponumber\" type=\"hidden\" value=\"" .$relaynames[$x]. "\">\n";
 echo "                                        <div class=\"col-xs-12 text-center\" style=\"background-color:#033C73;\">\n";
-                                                  //Create a button for each relay to update the datetime pairs in the database
 echo "                                            <button style=\"margin-bottom:5px; margin-top: 5px;\" name=\"singlebutton\" class=\"btn btn-success\" id=\"singlebutton\">Update Relay " .$loop. "</button>\n";
 echo "                                        </div\n";
 echo "                                    </div>\n";
