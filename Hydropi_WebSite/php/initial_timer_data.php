@@ -2,7 +2,7 @@
 // INITIAL_TIMER_DATA.PHP
     require "php/hydropi_connect.php";
     // Select the datetime pairs from selected relay
-    $sql= ("SELECT starttime, stoptime FROM ".$title." WHERE pk = ".$i."");
+    $sql= ("SELECT starttime, stoptime FROM ".$relaynames[$x]." WHERE pk = ".$i."");
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_row($result);
     // Fill webpage with the current datetime pairs and configure Rome DatePicker
