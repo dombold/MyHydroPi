@@ -295,7 +295,7 @@ dbname = "YourMysqlDatabaseName"
 
 # Define Relay Settings
 
-outputpins = [22, 23, 24, 25]  # Specifiy a RPi GPIO Pin for each relay(25)
+outputpins = [22, 23, 24, 25]  # Specifiy a RPi GPIO Pin for each relay
 numdtpairs = [4, 4, 4, 4]  # Number of Start/Stop pairs for each relay
 relaycount = range(1, (len(outputpins) + 1))
 
