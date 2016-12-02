@@ -549,7 +549,7 @@ def read_sensors():
 
     # Get the readings from any Atlas Scientific temperature sensors
 
-            elif value["sensor_type"] == "atlas_scientific_temp":
+            if value["sensor_type"] == "atlas_scientific_temp":
                 device = atlas_i2c(value["i2c"])
                 sensor_reading = round(float(device.query("R")),
                                 value["accuracy"])
@@ -559,22 +559,26 @@ def read_sensors():
                 if value["is_ref"] is True:
                     ref_temp = sensor_reading
 
-            else:
+    # Get the readings from any Atlas Scientific Elec Conductivity sensors
+
+            if value["sensor_type"] == "atlas_scientific_ec":
                 device = atlas_i2c(value["i2c"])
                 # Set reference temperature value on the sensor
                 device.query("T," + str(ref_temp))
-
-    # Get the readings from any Atlas Scientific Elec Conductivity sensors
-
-                if value["sensor_type"] == "atlas_scientific_ec":
-                    sensor_reading = (round(((float(device.query("R"))) *
-                                  value["ppm_multiplier"]), value["accuracy"]))
+                sensor_reading = (round(((float(device.query("R"))) *
+                        value["ppm_multiplier"]), value["accuracy"]))
+                all_curr_readings.append([value["name"], sensor_reading])
+                if value["test_for_alert"] is True:
+                    alert_readings.append([value["name"], sensor_reading])
 
     # Get the readings from any other Atlas Scientific sensors
 
-                else:
-                    sensor_reading = round(float(device.query("R")),
-                                    value["accuracy"])
+            if value["sensor_type"] == "atlas_scientific":
+                device = atlas_i2c(value["i2c"])
+                # Set reference temperature value on the sensor
+                device.query("T," + str(ref_temp))
+                sensor_reading = round(float(device.query("R")),
+                                value["accuracy"])
                 all_curr_readings.append([value["name"], sensor_reading])
                 if value["test_for_alert"] is True:
                     alert_readings.append([value["name"], sensor_reading])
