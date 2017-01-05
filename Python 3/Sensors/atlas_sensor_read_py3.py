@@ -15,6 +15,7 @@
 import io
 import fcntl
 from time import sleep
+import paho.mqtt.publish as publish
 
 
 # Define Atlas Scientific Sensor Class
@@ -93,32 +94,40 @@ class atlas_i2c:
 
 def main():
     while True:  # Repeat the code indefinitely
+        
+        # Oxidation Reduction Sensor
         try:
-            device = atlas_i2c(98)  # Oxidation Resuction Sensor
+            device = atlas_i2c(98)  
             orp_reading = device.query("R")
             print (orp_reading)
-            #publish.single("ORP", orp_reading, hostname="your_server")
+            publish.single("ORP", orp_reading, hostname="your_server")
         except IOError:
             print ("Query failed")
+            
+        # pH Sensor    
         try:
-            device = atlas_i2c(99)  # pH Sensor
+            device = atlas_i2c(99)  
             ph_reading = device.query("R")
             print (ph_reading)
-            #publish.single("pH", ph_reading, hostname="your_server")
+            publish.single("pH", ph_reading, hostname="your_server")
         except IOError:
             print ("Query failed")
+            
+        # Electrical Conductivity Sensor
         try:
-            device = atlas_i2c(100)  # Electrical Conductivity Sensor
+            device = atlas_i2c(100)  
             ec_reading = device.query("R")
             print (ec_reading)
-            #publish.single("EC", ec_reading, hostname="your_server")
+            publish.single("EC", ec_reading, hostname="your_server")
         except IOError:
             print ("Query failed")
+        
+        # Temperature Sensor
         try:
-            device = atlas_i2c(102)  # Temperature Sensor
+            device = atlas_i2c(102)
             temp_reading = device.query("R")
             print (temp_reading)
-            #publish.single("Temp", temp_reading, hostname="your_server")
+            publish.single("Temp", temp_reading, hostname="your_server")
         except IOError:
             print ("Query failed")
 
