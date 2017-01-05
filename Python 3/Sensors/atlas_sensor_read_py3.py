@@ -132,3 +132,6 @@ def main():
             print ("Query failed")
 
         sleep(300)  # read sensor circuit every 300 sec (5 min)
+        
+if __name__ == '__main__':
+    main()
