@@ -11,7 +11,7 @@
 #
 # This program is designed to read the temperature in Celcius or Fahrenheit
 # from a DS18B20 waterproof temperature sensor. To read more than one
-# temperature sensor remove the # symbol from lines 27,28 and 63,64
+# temperature sensor remove the # symbol from lines 30,31 and 63,64
 # and update as required.
 #
 ##############################################################################
