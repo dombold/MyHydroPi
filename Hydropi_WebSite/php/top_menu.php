@@ -17,11 +17,11 @@ echo "        \n<body onload=\"updateClock(); setInterval('updateClock()', 1000)
                 </div>
                 <div id=\"navbar\" class=\"navbar-collapse collapse navbar-right\">
                     <ul class=\"nav navbar-nav\">
-                        <li><a href=\"/index.php\">Home</a></li>
-                        <li><a href=\"/graphs.php\">Graphs</a></li>
-                        <li><a href=\"/timers.php\">Timers</a></li>
-                        <li><a href=\"/dosage.php\">Dosage</a></li>
-                        <li><a href=\"/settings.php\">Settings</a></li>
+                        <li><a href=\"index.php\">Home</a></li>
+                        <li><a href=\"graphs.php\">Graphs</a></li>
+                        <li><a href=\"timers.php\">Timers</a></li>
+                        <li><a href=\"dosage.php\">Dosage</a></li>
+                        <li><a href=\"settings.php\">Settings</a></li>
                     </ul>
                 </div><!--.nav-collapse -->
             </div>
