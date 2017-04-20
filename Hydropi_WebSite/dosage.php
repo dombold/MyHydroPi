@@ -10,7 +10,7 @@
             <meta name="author" content="">
             <link rel="icon"
                   type="image/png"
-                  href="http://YourWebsite.com/favicon.png"> <!-- Or href="http://localhost/favicon.png"> -->
+                  href="favicon.png"> <!-- Or href="http://localhost/favicon.png"> -->
             <title>HydroPi - Pool Monitor</title>
 
             <!-- Bootstrap core CSS -->
@@ -143,7 +143,7 @@ echo "                          <button class=\"btn btn-info\" name=\"singlebutt
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
     <!-- Custom JavaScript
     ================================================== -->
