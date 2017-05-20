@@ -7,6 +7,8 @@
 # Website: myhydropi.com
 # Contact: admin@myhydropi.com
 #
+# This code was written to help out a reader who wanted to send the sensor data
+# using MQTT
 # Feel free to use and modify this code for you own use in any way.
 # atlas_i2c class code written by Atlas Scientific
 #
