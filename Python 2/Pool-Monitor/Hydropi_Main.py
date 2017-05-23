@@ -773,6 +773,18 @@ def check_each_start_stop_timer(timer_data):
             return False
 
 
+def current_relay_state(currrelay, relaystate):
+
+    conn, curs = open_database_connection()
+
+    curs.execute("UPDATE IGNORE timer_override SET {} = {} WHERE pk = 2"
+                .format(currrelay, relaystate))
+
+    close_database_connection(conn, curs)
+
+    return
+
+
 def activate_deactivate_relays():
 
     # Read settings of On, Off or Auto for each relay and execute required
@@ -790,15 +802,23 @@ def activate_deactivate_relays():
                 relayon = check_each_start_stop_timer(timer_data)
                 if relayon is True:
                     RPi.GPIO.output(opp, True)
+                    relayname = ("relay_" + str(rct))
+                    current_relay_state(relayname, relayon)
                     break
                 elif relayon is False:
                     dtpair += 1
                 if dtpair == (ndtp + 1):
                     RPi.GPIO.output(opp, False)
+                    relayname = ("relay_" + str(rct))
+                    current_relay_state(relayname, relayon)
         elif override[rct] == "on":
             RPi.GPIO.output(opp, True)  # turn relay on
+            relayname = ("relay_" + str(rct))
+            current_relay_state(relayname, True)
         elif override[rct] == "off":
             RPi.GPIO.output(opp, False)  # turn relay off
+            relayname = ("relay_" + str(rct))
+            current_relay_state(relayname, False)
     return
 
 # Configuration Settings
