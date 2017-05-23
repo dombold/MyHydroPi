@@ -288,16 +288,19 @@ def create_timer_override_table():
     curs.execute("CREATE TABLE IF NOT EXISTS timer_override "
                 "(pk INT UNSIGNED PRIMARY KEY);")
     curs.execute("INSERT IGNORE INTO timer_override (pk) VALUES(1)")
+    curs.execute("INSERT IGNORE INTO timer_override (pk) VALUES(2)")
 
     # Add columns and default "off" data to timer_override table
 
     for number in relaycount:
         relayname = ("relay_" + str(number))
         try:
-            curs.execute("ALTER TABLE timer_override ADD {} VARCHAR(4);"
-            .format(relayname))
+            curs.execute("ALTER TABLE timer_override ADD {} VARCHAR(5)"
+                         .format(relayname))
             curs.execute("UPDATE IGNORE timer_override SET {} = 'off' "
-                        "WHERE pk=1;".format(relayname))
+                        "WHERE pk = 1;".format(relayname))
+            curs.execute("UPDATE IGNORE timer_override SET {} = 'False' "
+                        "WHERE pk = 2;".format(relayname))
         except:
             pass
 
@@ -779,6 +782,18 @@ def check_each_start_stop_timer(timer_data):
             return False
 
 
+def current_relay_state(currrelay, relaystate):
+
+    conn, curs = open_database_connection()
+
+    curs.execute("UPDATE IGNORE timer_override SET {} = {} WHERE pk = 2"
+                .format(currrelay, relaystate))
+
+    close_database_connection(conn, curs)
+
+    return
+
+
 def activate_deactivate_relays():
 
     # Read settings of On, Off or Auto for each relay and execute required
@@ -796,15 +811,23 @@ def activate_deactivate_relays():
                 relayon = check_each_start_stop_timer(timer_data)
                 if relayon is True:
                     RPi.GPIO.output(opp, True)
+                    relayname = ("relay_" + str(rct))
+                    current_relay_state(relayname, relayon)
                     break
                 elif relayon is False:
                     dtpair += 1
                 if dtpair == (ndtp + 1):
                     RPi.GPIO.output(opp, False)
+                    relayname = ("relay_" + str(rct))
+                    current_relay_state(relayname, relayon)
         elif override[rct] == "on":
             RPi.GPIO.output(opp, True)  # turn relay on
+            relayname = ("relay_" + str(rct))
+            current_relay_state(relayname, True)
         elif override[rct] == "off":
             RPi.GPIO.output(opp, False)  # turn relay off
+            relayname = ("relay_" + str(rct))
+            current_relay_state(relayname, False)
     return
 
 # Configuration Settings
