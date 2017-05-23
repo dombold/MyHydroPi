@@ -282,16 +282,19 @@ def create_timer_override_table():
     curs.execute("CREATE TABLE IF NOT EXISTS timer_override "
                 "(pk INT UNSIGNED PRIMARY KEY);")
     curs.execute("INSERT IGNORE INTO timer_override (pk) VALUES(1)")
+    curs.execute("INSERT IGNORE INTO timer_override (pk) VALUES(2)")
 
     # Add columns and default "off" data to timer_override table
 
     for number in relaycount:
         relayname = ("relay_" + str(number))
         try:
-            curs.execute("ALTER TABLE timer_override ADD {} VARCHAR(4);"
-            .format(relayname))
+            curs.execute("ALTER TABLE timer_override ADD {} VARCHAR(5)"
+                         .format(relayname))
             curs.execute("UPDATE IGNORE timer_override SET {} = 'off' "
-                        "WHERE pk=1;".format(relayname))
+                        "WHERE pk = 1;".format(relayname))
+            curs.execute("UPDATE IGNORE timer_override SET {} = 'False' "
+                        "WHERE pk = 2;".format(relayname))
         except:
             pass
 
