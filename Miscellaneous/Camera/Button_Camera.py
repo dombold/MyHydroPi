@@ -9,10 +9,10 @@
 #
 # This program will recognise a button push on GPIO pin 27 and take a photo.
 # If the button is held down then it will continue to take photo's every second
-# until the button is relased. Images are store in order to the specified
-# folder, if the folder does not exist then the program will create one.
+# until the button is relased. Images are stored in order to the specified
+# folder, if the folder does not exist then the program will create it.
 #
-# GPIO pins use the Broadcom pin numbering scheme
+# GPIO pins use the Broadcom numbering scheme
 #
 ##############################################################################
 
@@ -25,7 +25,7 @@ from picamera import PiCamera
 # Configures pin numbering to Broadcom reference
 GPIO.setmode(GPIO.BCM)
 
-# Set GPIO pin to input and activate pull_down resistor
+# Set GPIO pin to input and activate pull_down resistor to reference pin to ground
 gpio_pin = 27
 GPIO.setup(gpio_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
