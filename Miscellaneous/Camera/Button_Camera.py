@@ -26,7 +26,8 @@ from picamera import PiCamera
 GPIO.setmode(GPIO.BCM)
 
 # Set GPIO pin to input and activate pull_down resistor
-GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+gpio_pin = 27
+GPIO.setup(gpio_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 camera = PiCamera()
 image_no = 1
@@ -44,7 +45,7 @@ print ("Ready")  # Not required testing only
 
 try:
     while True:
-        if GPIO.input(27):  # Check for PIR sensor trigger
+        if GPIO.input(gpio_pin):  # Check for PIR sensor trigger
             print ("Button Pushed")  # Not required testing only
             # Check file name so that you don't overwrite an existing image
             while os.path.isfile('/home/pi/myprojects/Cam_Images/image%s.jpg' %image_no):
