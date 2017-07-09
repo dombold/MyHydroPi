@@ -41,6 +41,9 @@ if not os.path.exists(image_folder):
     print ("Making Directory")  # Not required testing only
     os.makedirs(image_folder)
 
+camera.start_preview()
+sleep(5) #  Allow camera to set light levels
+
 print ("Ready")  # Not required testing only
 
 try:
@@ -51,11 +54,10 @@ try:
             while os.path.isfile('/home/pi/myprojects/Cam_Images/image%s.jpg' %image_no):
                 image_no += 1
             # Take and save picture
-            camera.start_preview()  # Not required testing only
-            sleep(1)  # Time between shots if button is held down
             camera.capture('/home/pi/myprojects/Cam_Images/image%s.jpg' %image_no)
-            camera.stop_preview()  # Not required testing only
+            sleep(1)  # Time between shots if button is held down
             print ("Picture Captured")  # Not required testing only
 except KeyboardInterrupt:
     print ("Shutting Down")  # Not required testing only
+    camera.stop_preview()
     GPIO.cleanup()
