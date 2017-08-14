@@ -646,11 +646,14 @@ def send_email(alert_readings):
     msg.attach(MIMEText(body, 'plain'))
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    server.login(fromaddr, "YourFromEmailPassword")
-    text = msg.as_string()
-    server.sendmail(fromaddr, alladdr, text)
-    server.quit()
+    try:
+        server.starttls()
+        server.login(fromaddr, "YourFromEmailPassword")
+        text = msg.as_string()
+        server.sendmail(fromaddr, alladdr, text)
+        server.quit()
+    except:
+        pass
     return
 
 
