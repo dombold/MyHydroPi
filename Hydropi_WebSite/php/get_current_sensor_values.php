@@ -18,7 +18,7 @@
           echo "document.getElementById(\"".$title."_curr\").innerHTML = \"".round($row[$title],2)."\";\n";
         }
         else if ($title == "orp") {
-          echo "document.getElementById(\"".$title."_curr\").innerHTML = \"".round($row[$title],0)."\\xb5S\";\n";
+          echo "document.getElementById(\"".$title."_curr\").innerHTML = \"".round($row[$title],0)."mV\";\n";
         }
         else if ($title == "ec") {
           echo "document.getElementById(\"".$title."_curr\").innerHTML = \"".round($row[$title],0)."ppm\";\n";
