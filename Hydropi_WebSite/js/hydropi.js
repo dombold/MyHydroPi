@@ -229,7 +229,7 @@ function drawChart(timeinterval) {
     $.ajax({
         url: "php/get_graph.php",
         type: "POST",
-        data: {newtimeframe: timeinterval, sensor: "orp", label: "uS"},
+        data: {newtimeframe: timeinterval, sensor: "orp", label: "mV"},
         dataType: "json",
         success: function (jsonData) {
             // Create our data table out of JSON data loaded from server.
