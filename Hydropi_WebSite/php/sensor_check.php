@@ -1,5 +1,9 @@
 <?php
 // SENSOR_CHECK.PHP
+
+// Use this file to present the averages from the previous day only while
+// the main pool pump was running
+
     include "sensor_col_names.php";
     // Get an array of all the connected sensors names
     require "hydropi_connect.php";
