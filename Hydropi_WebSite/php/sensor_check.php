@@ -114,7 +114,7 @@
                             mysqli_free_result($check2);
                         }
                         elseif ($title == "orp") {
-                            echo  "document.getElementById(\"".$title."_avg\").innerHTML = \"".round($row[0],0)."\\xb5S\";\n";
+                            echo  "document.getElementById(\"".$title."_avg\").innerHTML = \"".round($row[0],0)."mV\";\n";
                             $check = mysqli_query($conn, ("SELECT orp_low FROM settings WHERE pk=1"));
                             $value_low = mysqli_fetch_row($check);
                             $check2 = mysqli_query($conn, ("SELECT orp_hi FROM settings WHERE pk=1"));
