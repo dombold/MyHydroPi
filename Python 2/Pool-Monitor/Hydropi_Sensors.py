@@ -275,7 +275,6 @@ def log_sensor_readings(all_curr_readings):
 def read_sensors():
 
     all_curr_readings = []
-    alert_readings = []
     ref_temp = 25
 
     # Get the readings from any 1-Wire temperature sensors
@@ -291,8 +290,6 @@ def read_sensors():
                     
                 all_curr_readings.append([value["name"], sensor_reading])
 
-                if value["test_for_alert"] is True:
-                    alert_readings.append([value["name"], sensor_reading])
                 if value["is_ref"] is True:
                     ref_temp = sensor_reading
 
@@ -307,8 +304,7 @@ def read_sensors():
                     sensor_reading = 50
                     
                 all_curr_readings.append([value["name"], sensor_reading])
-                if value["test_for_alert"] is True:
-                    alert_readings.append([value["name"], sensor_reading])
+
                 if value["is_ref"] is True:
                     ref_temp = sensor_reading
                     
@@ -325,9 +321,6 @@ def read_sensors():
                     sensor_reading = 10000
                     
                 all_curr_readings.append([value["name"], sensor_reading])
-                
-                if value["test_for_alert"] is True:
-                    alert_readings.append([value["name"], sensor_reading])
 
     # Get the readings from any other Atlas Scientific sensors
 
@@ -345,8 +338,6 @@ def read_sensors():
                         sensor_reading = 1000
                         
                 all_curr_readings.append([value["name"], sensor_reading])
-                if value["test_for_alert"] is True:
-                    alert_readings.append([value["name"], sensor_reading])
 
     log_sensor_readings(all_curr_readings)
 
