@@ -289,12 +289,15 @@ def read_sensors():
 
     # Get the readings from any 1-Wire temperature sensors
 
-    for key, value in list(sensors.items()):
+    for key, value in sensors.items():
         if value["is_connected"] is True:
             if value["sensor_type"] == "1_wire_temp":
-                sensor_reading = (round(float(read_1_wire_temp(key)),
+                try:
+                    sensor_reading = (round(float(read_1_wire_temp(key)),
                                  value["accuracy"]))
-
+                except:
+                    sensor_reading = 50
+                    
                 all_curr_readings.append([value["name"], sensor_reading])
 
                 if value["is_ref"] is True:
@@ -302,30 +305,48 @@ def read_sensors():
 
     # Get the readings from any Atlas Scientific temperature sensors
 
-            elif value["sensor_type"] == "atlas_scientific_temp":
+            if value["sensor_type"] == "atlas_scientific_temp":
                 device = atlas_i2c(value["i2c"])
-                sensor_reading = round(float(device.query("R")),
+                try:
+                    sensor_reading = round(float(device.query("R")),
                                 value["accuracy"])
+                except:
+                    sensor_reading = 50
+                    
                 all_curr_readings.append([value["name"], sensor_reading])
+                
                 if value["is_ref"] is True:
                     ref_temp = sensor_reading
+                    
+    # Get the readings from any Atlas Scientific Elec Conductivity sensors
 
-            else:
+            if value["sensor_type"] == "atlas_scientific_ec":
                 device = atlas_i2c(value["i2c"])
                 # Set reference temperature value on the sensor
                 device.query("T," + str(ref_temp))
-
-    # Get the readings from any Atlas Scientific Elec Conductivity sensors
-
-                if value["sensor_type"] == "atlas_scientific_ec":
+                try:
                     sensor_reading = (round(((float(device.query("R"))) *
-                                  value["ppm_multiplier"]), value["accuracy"]))
+                        value["ppm_multiplier"]), value["accuracy"]))
+                except:
+                    sensor_reading = 10000
+                    
+                all_curr_readings.append([value["name"], sensor_reading])
 
     # Get the readings from any other Atlas Scientific sensors
 
-                else:
+            if value["sensor_type"] == "atlas_scientific":
+                device = atlas_i2c(value["i2c"])
+                # Set reference temperature value on the sensor
+                device.query("T," + str(ref_temp))
+                try:
                     sensor_reading = round(float(device.query("R")),
-                                    value["accuracy"])
+                                value["accuracy"])
+                except:
+                    if value["name"] == "ph":
+                        sensor_reading = 2
+                    elif value["name"] == "orp":
+                        sensor_reading = 1000
+                        
                 all_curr_readings.append([value["name"], sensor_reading])
 
     log_sensor_readings(all_curr_readings)
