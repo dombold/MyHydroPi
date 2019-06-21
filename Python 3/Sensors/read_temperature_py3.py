@@ -18,6 +18,7 @@
 
 import os
 from time import sleep  # Import sleep module for timing
+from math import trunc  # Import trunc to set the output accuracy
 
 # Load Raspberry Pi Drivers
 os.system('modprobe w1-gpio')
@@ -38,6 +39,11 @@ def read_temp_raw(temp_sensor):
     f.close()
     return lines
 
+#  This definition truncates the number of digits after the decimal point
+#  The sensor normally outputs Celcius values to 3 decimal points 
+def truncate(number, digits) -> float:
+    stepper = 10.0 ** digits
+    return trunc(stepper * number) / stepper
 
 def read_temp(temp_sensor):
 # Check the Temp Sensor file for errors and convert to Celcius or Fahrenheit
@@ -48,10 +54,12 @@ def read_temp(temp_sensor):
     temp_result = lines[1].find('t=')
     if temp_result != -1:
         temp_string = lines[1][temp_result + 2:]
-        # Use line below for Celsius
-        temp = float(temp_string) / 1000.0
-        #Uncomment line below for Fahrenheit
-        #temp = ((float(temp_string) / 1000.0) * (9.0 / 5.0)) + 32
+        #  Use line below for Celsius
+        temp = truncate((float(temp_string) / 1000.0),2)
+        #  Uncomment line below for Fahrenheit
+        #  The last number (2 shown here) sets the number of digits after the
+        #  decimal point
+        #temp = truncate((((float(temp_string) / 1000.0) * (9.0 / 5.0)) + 32),2)
         return temp
 
 # Get Temperature
