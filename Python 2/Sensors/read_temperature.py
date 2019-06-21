@@ -17,19 +17,25 @@
 ##############################################################################
 
 import os
-from time import sleep  # Import sleep module for timing
+from time import sleep  #  Import sleep function for timing
+from math import trunc  #  Import trunc function to set accuracy
 
-# Load Raspberry Pi Drivers
+#  Load Raspberry Pi Drivers
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
-# Define data file for temperature sensors
-temp_sensor_1 = '/sys/bus/w1/devices/28-01157127dfff/w1_slave'
+#  Define data file for temperature sensors
+temp_sensor_1 = '/sys/bus/w1/devices/28-xxxxxxxxxxxx/w1_slave'
 
-#Uncomment and insert data file name for attitional sensors
+#  Uncomment and insert data file name for attitional sensors
 #temp_sensor_2 = '/sys/bus/w1/devices/28-xxxxxxxxxxxx/w1_slave'
 #temp_sensor_3 = '/sys/bus/w1/devices/28-xxxxxxxxxxxx/w1_slave'
 
+#  This definition truncates the number of digits after the decimal point
+#  The sensor normally outputs Celcius values to 3 decimal points 
+def truncate(number, digits) -> float:
+    stepper = 10.0 ** digits
+    return trunc(stepper * number) / stepper
 
 def read_temp_raw(temp_sensor):
 #Read the 2 raw lines of data from the temperature sensor
@@ -40,7 +46,7 @@ def read_temp_raw(temp_sensor):
 
 
 def read_temp(temp_sensor):
-# Check the Temp Sensor file for errors and convert to Celcius or Fahrenheit
+#  Check the Temp Sensor file for errors and convert to Celcius or Fahrenheit
     lines = read_temp_raw(temp_sensor)
     while lines[0].strip()[-3:] != 'YES':
         sleep(0.2)
@@ -48,17 +54,21 @@ def read_temp(temp_sensor):
     temp_result = lines[1].find('t=')
     if temp_result != -1:
         temp_string = lines[1][temp_result + 2:]
-        # Use line below for Celsius
-        temp = float(temp_string) / 1000.0
-        #Uncomment line below for Fahrenheit
-        #temp = ((float(temp_string) / 1000.0) * (9.0 / 5.0)) + 32
+        #  Use line below for Celsius
+        #  The last number (2 shown here) sets the number of digits after the
+        #  decimal point or accuracy
+        temp = truncate((float(temp_string) / 1000.0),2)
+        #  Uncomment line below for Fahrenheit
+        #  The last number (2 shown here) sets the number of digits after the
+        #  decimal point
+        #temp = truncate((((float(temp_string) / 1000.0) * (9.0 / 5.0)) + 32),2)
         return temp
 
-# Get Temperature
+#  Get Temperature
 while True:
     print "Temperature Sensor 1 = ", read_temp(temp_sensor_1)
 
-# Uncomment below for attitional sensors
+#  Uncomment below for attitional sensors
     #print"Temperature Sensor 2 = ", read_temp(temp_sensor_2)
     #print"Temperature Sensor 3 = ", read_temp(temp_sensor_3)
-    sleep(2)   # Read every 2 seconds
+    sleep(2)   #  Read every 2 seconds
