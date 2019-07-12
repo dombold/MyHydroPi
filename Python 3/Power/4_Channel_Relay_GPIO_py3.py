@@ -29,13 +29,17 @@ for i in OutputPins:
     GPIO.setup(i, GPIO.OUT)
     GPIO.output(i, False)
 
-while (True):
-# Step through each GPIO pin and set On
-    for i in OutputPins:
-        GPIO.output(i, True)
-# Sleep for 5 seconds
-    sleep(5)
-# Step through each GPIO pin and set Off
-    for i in OutputPins:
-        GPIO.output(i, False)
-    sleep(5)
+try:
+    while (True):
+    # Step through each GPIO pin and set On
+        for i in OutputPins:
+            GPIO.output(i, True)
+    # Sleep for 5 seconds
+            sleep(5)
+            GPIO.output(i, False)
+except KeyboardInterrupt:
+    # catches the ctrl-c command, breaks the loop above
+    # and turns off the relays
+        for i in OutputPins:
+            GPIO.output(i, False)
+
