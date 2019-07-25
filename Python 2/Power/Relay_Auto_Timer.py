@@ -13,12 +13,19 @@
 # at set times stored in a MySql database. The timers can be overridden
 # to force the Relays either on or off.
 #
+# For Python 3 I have used mysql-connector module to connect to the database.
+# To add the module you need to enter the following commands
+# 
+# sudo apt install python-pip
+# sudo pip install mysql-connector-python
+#
 ##############################################################################
 
-import MySQLdb
+import mysql.connector as mariadb
 from time import sleep
 import datetime
 import RPi.GPIO as GPIO
+
 
 servername = "localhost"
 username = "YourMySQLusername"
@@ -32,10 +39,15 @@ GPIO.setwarnings(False)
 
 # Global Variables
 
-outputpins = [22, 23, 24, 25]  # Set the GPIO pin numbers that are required
-relaynum = ["relay1", "relay2", "relay3", "relay4"]  # List of relay names in MySQL
-relaycount = range(1, 5)  # Number of relays to be controlled
-numdtpairs = 4  # Number of Start/Stop pairs per relay
+# Set the GPIO pin numbers that are required
+outputpins = [22, 23, 24, 25]
+# Relay names in MySQL
+relaynum = ["relay_1_timer", "relay_2_timer", "relay_3_timer", "relay_4_timer"]
+ # Number of relays to be controlled
+relaycount = range(1, 5)
+# Number of Start/Stop pairs per relay
+numdtpairs = 4
+
 
 #Set our GPIO pins to outputs and set them to off then wait 2 seconds
 
@@ -48,9 +60,15 @@ sleep(2)
 
 
 def read_override_data():
-    conn = MySQLdb.connect(servername, username, password, dbname)
+    conn = mariadb.connect(user=username,
+                           password=password,
+                           host=servername,
+                           database=dbname)
     curs = conn.cursor()
-    curs.execute("SELECT * FROM timeoverride WHERE pk=(1)")
+    try:
+        curs.execute("SELECT * FROM timer_override WHERE pk=(1)")
+    except mariadb.Error as error:
+        print("Error: {}".format(error))
     override_timer_values = curs.fetchone()
     conn.close()
     return override_timer_values
@@ -59,9 +77,15 @@ def read_override_data():
 
 
 def get_relay_timer_data(tablename, row):
-    conn = MySQLdb.connect(servername, username, password, dbname)
+    conn = mariadb.connect(user=username,
+                           password=password,
+                           host=servername,
+                           database=dbname)
     curs = conn.cursor()
-    curs.execute("SELECT * FROM {0} WHERE pk={1}".format(tablename, row))
+    try:
+        curs.execute("SELECT * FROM {0} WHERE pk={1}".format(tablename, row))
+    except mariadb.Error as error:
+        print("Error: {}".format(error))
     relay_timer_values = curs.fetchone()
     conn.close()
     return relay_timer_values
@@ -91,25 +115,31 @@ def timercheck(timer_data, relay):
 
 # Main Program
 
-while True:  # Repeat the code indefinitely
-    override = read_override_data()
-    for i, j, z in zip(relaycount, outputpins, relaynum):
-        if override[i] == "auto":
-            relay = j
-            relayon = "False"
-            dtpair = 1
-            while relayon == "False" and dtpair <= numdtpairs:
-                timer_data = get_relay_timer_data(z, dtpair)
-                relayon = timercheck(timer_data, relay)
-                if relayon == "True":
-                    GPIO.output(relay, True)
-                    break
-                elif relayon == "False":
-                    dtpair += 1
-                if dtpair == (numdtpairs + 1):
-                    GPIO.output(relay, False)
-        elif override[i] == "on":
-            GPIO.output(j, True)  # turn relay on
-        elif override[i] == "off":
-            GPIO.output(j, False)  # turn relay off
-    sleep(1)
+try:
+    while True:  # Repeat the code indefinitely
+        override = read_override_data()
+        for i, j, z in zip(relaycount, outputpins, relaynum):
+            if override[i] == "auto":
+                relay = j
+                relayon = "False"
+                dtpair = 1
+                while relayon == "False" and dtpair <= numdtpairs:
+                    timer_data = get_relay_timer_data(z, dtpair)
+                    relayon = timercheck(timer_data, relay)
+                    if relayon == "True":
+                        GPIO.output(relay, True)
+                        break
+                    elif relayon == "False":
+                        dtpair += 1
+                    if dtpair == (numdtpairs + 1):
+                        GPIO.output(relay, False)
+            elif override[i] == "on":
+                GPIO.output(j, True)  # turn relay on
+            elif override[i] == "off":
+                GPIO.output(j, False)  # turn relay off
+        sleep(1)
+except KeyboardInterrupt:
+    # catches the ctrl-c command, breaks the loop above
+    # and turns off the relays
+        for i in outputpins:
+            GPIO.output(i, False)
