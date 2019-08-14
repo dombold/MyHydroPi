@@ -1,10 +1,10 @@
 <?php
 // HYDROPI_CONNECT.PHP
     // Set database login details
-    $servername = "localhost";
-    $username = "YourMysqlUsername";
-    $password = "YourMysqlPassword";
-    $dbname = "YourMysqlDatabaseName";
+    $servername = "localhost"
+    $username = "yourDatabbaseUsername"
+    $password = "yourdatabasePassword"
+    $dbname = "hydropidb"
 
     // Create connection
 

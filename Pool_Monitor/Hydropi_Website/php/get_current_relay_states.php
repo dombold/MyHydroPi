@@ -2,7 +2,7 @@
 // GET_CURRENT_RELAY_STATES.PHP
     require "hydropi_connect.php";
     // Get relay names and add to an array
-    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'hydropi' AND TABLE_NAME = 'timer_override'";
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'hydropidb' AND TABLE_NAME = 'timer_override'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         // output data of each row
