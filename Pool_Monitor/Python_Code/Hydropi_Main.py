@@ -80,7 +80,7 @@ import power_manager as pman
 
 # Uncomment sleep if running program at startup with crontab
 
-#sleep(10)
+sleep(10)
 
 # Check the the number of GPIO ports equals the number of Start/Stop pairs
 
