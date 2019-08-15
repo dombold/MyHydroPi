@@ -127,7 +127,7 @@ def check_for_only_one_reference_temperature():
 
 # Start Logging
 
-logging.basicConfig(filename = 'hydropi_error.log',
+logging.basicConfig(filename = '/Path/To/Log/File/hydropi_error.log',
         format = '%(asctime)s -  %(levelname)s - %(message)s',
         datefmt = '%d/%m/%Y %I:%M:%S %p', 
         level = logging.INFO)

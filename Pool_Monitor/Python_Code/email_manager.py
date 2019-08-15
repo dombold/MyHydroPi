@@ -89,7 +89,7 @@ def reset_email_sent_flag_if_alerts_clear(alert_results, email_sent):
     if len(alert_results) == len(check):
         var.email_sent = False
 
-    return (var.email_sent)
+    return var.email_sent
 
 def check_sensor_alert_limits(alert_results, alert_flag):
 
