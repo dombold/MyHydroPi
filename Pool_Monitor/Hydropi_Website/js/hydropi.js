@@ -56,45 +56,45 @@ function Shutdown() {
 
 function set_power_state(gpo_state, gpo_number){
 
-  //Call PHP script to update mySQL with the new value
-
-  $.ajax({
-    url: "php/power_update.php",
-    type: "POST",
-    data: {new_gpo_state: gpo_state, selected_gpo: gpo_number}
-  });
-
-  //Update webpage with new background colors to indicate the current state
-    if(gpo_state=='off'){
-        document.getElementById(gpo_number + "_state").style.backgroundColor = "#e12b31";
-        document.getElementById(gpo_number + "_curr").innerHTML = "Off";
-        document.getElementById(gpo_number + "_curr").style.color = "#e12b31";
-      };
-    if(gpo_state=='on'){
-        document.getElementById(gpo_number + "_state").style.backgroundColor = "#88c149";
-        document.getElementById(gpo_number + "_curr").innerHTML = "On";
-        document.getElementById(gpo_number + "_curr").style.color = "#88c149";
-      };
-    if(gpo_state=='auto'){
-        document.getElementById(gpo_number + "_state").style.backgroundColor = "#ff6707";
-        document.getElementById(gpo_number + "_curr").innerHTML = "???";
-        document.getElementById(gpo_number + "_curr").style.color = "#ff6707";
-        $.ajax({
-        url: "php/gpio_state.php",
-        type: "POST",
-        data: {new_gpo_state: gpo_state, selected_gpo: gpo_number}
-        }).done(function(curr_state) {
-            if (curr_state == 0) {
-                document.getElementById(gpo_number + "_curr").innerHTML = "Off";
-                document.getElementById(gpo_number + "_curr").style.color = "#e12b31";
-            }
-            else if (curr_state == 1) {
-                document.getElementById(gpo_number + "_curr").innerHTML = "On";
-                document.getElementById(gpo_number + "_curr").style.color = "#88c149";
-            }
-            });
-    };
-}
+    //Call PHP script to update mySQL with the new value
+  
+    $.ajax({
+      url: "php/power_update.php",
+      type: "POST",
+      data: {new_gpo_state: gpo_state, selected_gpo: gpo_number}
+    });
+  
+    //Update webpage with new background colors to indicate the current state
+        if(gpo_state=='off'){
+            document.getElementById(gpo_number + "_curr").innerHTML = "Off";
+            document.getElementById(gpo_number + "_state").style.backgroundColor = "#dc3545";
+            document.getElementById(gpo_number + "_curr").style.backgroundColor = "#dc3545";
+            };
+        if(gpo_state=='on'){
+            document.getElementById(gpo_number + "_curr").innerHTML = "On";
+            document.getElementById(gpo_number + "_state").style.backgroundColor = "#28a745";
+            document.getElementById(gpo_number + "_curr").style.backgroundColor = "#28a745";
+            };
+        if(gpo_state=='auto'){
+            document.getElementById(gpo_number + "_curr").innerHTML = "???";
+            document.getElementById(gpo_number + "_state").style.backgroundColor = "#ffc107";
+            document.getElementById(gpo_number + "_curr").style.backgroundColor = "#ffc107"
+            $.ajax({
+            url: "php/gpio_state.php",
+            type: "POST",
+            data: {new_gpo_state: gpo_state, selected_gpo: gpo_number}
+            }).done(function(curr_state) {
+                if (curr_state == 0) {
+                    document.getElementById(gpo_number + "_curr").innerHTML = "Off";
+                    document.getElementById(gpo_number + "_curr").style.backgroundColor = "#dc3545";
+                }
+                else if (curr_state == 1) {
+                    document.getElementById(gpo_number + "_curr").innerHTML = "On";
+                    document.getElementById(gpo_number + "_curr").style.backgroundColor = "#28a745";
+                }
+                });
+        };
+    }
 
 function chemical_check_cya(pool_size){
     var test_value = document.getElementById("cya_input").value;

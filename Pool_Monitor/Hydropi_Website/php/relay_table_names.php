@@ -2,7 +2,7 @@
 // RELAY_TABLE_NAMES.PHP
     require "hydropi_connect.php";
     // Get all the connected relay names and place in an array
-    $sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'hydropidb'";
+    $sql = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '" .$dbname. "'";
     $result = mysqli_query($conn, $sql);
     $row_cnt = mysqli_num_rows($result);
     if ($row_cnt > 0) {

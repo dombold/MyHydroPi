@@ -6,7 +6,7 @@
 
     require "hydropi_connect.php";
     // Get each of the relay names from the database and place in an array
-    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'hydropidb' AND TABLE_NAME = 'timer_override'";
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '" .$dbname. "' AND TABLE_NAME = 'timer_override'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         // output data of each row

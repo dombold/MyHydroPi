@@ -8,11 +8,5 @@ body {
     background-image: linear-gradient(to bottom, #0060BF, #5CC3FF);
     background-attachment: fixed;
 }
-.div {
-    .center-block (
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    );
-}
+
 

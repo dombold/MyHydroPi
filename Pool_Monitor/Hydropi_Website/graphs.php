@@ -14,7 +14,7 @@
             <title>HydroPi - Pool Monitor</title>
 
             <!-- Bootstrap core CSS -->
-            <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
             <!-- Custom styles for this template -->
             <link rel="stylesheet" type="text/css" href="css/hydropi_theme.css">
@@ -27,44 +27,41 @@
         <div class="container"></div>
         <!-- Create custom menu for selecting the timeframe for plotting the graphs -->
         <div class="container">
-            <nav class="navbar navbar-inverse">
+            <nav class="navbar navbar-dark navbar-expand-md">
                 <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar2" aria-expanded="false" aria-controls="navbar">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">View Chart for:</a>
-                    </div>
-                    <div id="navbar2" class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav">
-                            <li><a type="button" href="#" onclick="drawChart(1);">1 Day</a></li>
-                            <li><a type="button" href="#" onclick="drawChart(7);">1 Week</a></li>
-                            <li><a type="button" href="#" onclick="drawChart(30);">1 Month</a></li>
-                            <li><a type="button" href="#" onclick="drawChart(90);">3 Months</a></li>
-                            <li><a type="button" href="#" onclick="drawChart(180);">6 Months</a></li>
-                            <li><a type="button" href="#" onclick="drawChart(365);">1 Year</a></li>
+                    <a class="navbar-brand" href="#">View Chart for:</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar2" aria-expanded="false" aria-controls="navbar2" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse " id="navbar2">
+                        <ul class="navbar-nav nav-tabs ml-auto">
+                            <li class="nav-item"><a class="nav-link" style= "background-color:#033C73" type="button" href="#" onclick="drawChart(1);">1 Day</a></li>
+                            <li class="nav-item"><a class="nav-link" style= "background-color:#033C73" type="button" href="#" onclick="drawChart(7);">1 Week</a></li>
+                            <li class="nav-item"><a class="nav-link" style= "background-color:#033C73" type="button" href="#" onclick="drawChart(30);">1 Month</a></li>
+                            <li class="nav-item"><a class="nav-link" style= "background-color:#033C73" type="button" href="#" onclick="drawChart(90);">3 Months</a></li>
+                            <li class="nav-item"><a class="nav-link" style= "background-color:#033C73" type="button" href="#" onclick="drawChart(180);">6 Months</a></li>
+                            <li class="nav-item"><a class="nav-link" style= "background-color:#033C73" type="button" href="#" onclick="drawChart(365);">1 Year</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>
             </nav>
+        <div>
 
 
-            <div class="panel-group">
+            <div class="card-group">
             <?php
                 // Read the sensors that are connected from the database and create a panel for each graph
                 include "php/sensor_col_names.php";
                 foreach ($colnames as $title){
-echo "                <div class=\"panel panel-info\">\n";
-echo "                    <div class=\"panel-heading\">\n";
-echo "                        <div class=\"panel-title text-center\" id=\"" .$title. "_name\">\n";
-echo "                        </div>\n";
-echo "                    </div>\n";
-echo "                    <div class=\"panel-body\" id=\"" .$title. "_graph\" style=\"height:400px\" class=\"panel-body\">\n";
-echo "                    </div>\n";
-echo "                </div>\n";
+echo "             <div class=\"col-sm-12\">\n";
+echo "                 <div class=\"card border border-dark text-light mb-3\" style= \"background-color:#033C73\">\n";
+echo "                     <div class=\"card-title\">\n";
+echo "                         <h2 class=\"d-flex justify-content-center\" id=\"" .$title. "_name\"></h2>\n";
+echo "                     </div>\n";
+echo "                     <div class=\"card-body\" id=\"" .$title. "_graph\" style=\"height:400px\" class=\"card-body\">\n";
+echo "                     </div>\n";
+echo "                 </div>\n";
+echo "             </div>\n";
             }
             ?>
             <script>
@@ -76,12 +73,14 @@ echo "                </div>\n";
             </div>
         </div>
     </body>
+    <div class="col-sm-12">
 
-    <!-- Bootstrap core JavaScript
+    <!-- Bootstrap JQuery JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <!-- Google Charts JavaScript
     ================================================== -->

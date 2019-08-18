@@ -9,19 +9,19 @@
 
     foreach ($colnames as $title) {
         if ($title == "ds18b20_temp") {
-          echo "document.getElementById(\"".$title."_curr\").innerHTML = \"".round($row[$title],1)."<sup>&degC</sup>\";\n";
+          echo "document.getElementById(\"".$title."_curr\").innerHTML = \"".round($row[$title],1)." &degC\";\n";
         }
         else if ($title == "atlas_temp") {
-          echo "document.getElementById(\"".$title."_curr\").innerHTML = \"".round($row[$title],1)."<sup>&degC</sup>\";\n";
+          echo "document.getElementById(\"".$title."_curr\").innerHTML = \"".round($row[$title],1)." &degC\";\n";
         }
         else if ($title == "ph") {
           echo "document.getElementById(\"".$title."_curr\").innerHTML = \"".round($row[$title],2)."\";\n";
         }
         else if ($title == "orp") {
-          echo "document.getElementById(\"".$title."_curr\").innerHTML = \"".round($row[$title],0)."mV\";\n";
+          echo "document.getElementById(\"".$title."_curr\").innerHTML = \"".round($row[$title],0)." mV\";\n";
         }
         else if ($title == "ec") {
-          echo "document.getElementById(\"".$title."_curr\").innerHTML = \"".round($row[$title],0)."ppm\";\n";
+          echo "document.getElementById(\"".$title."_curr\").innerHTML = \"".round($row[$title],0)." ppm\";\n";
         }
     }
     mysqli_free_result($result);

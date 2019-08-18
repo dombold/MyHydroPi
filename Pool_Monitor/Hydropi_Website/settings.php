@@ -15,7 +15,7 @@
             <title>HydroPi - Pool Monitor</title>
 
             <!-- Bootstrap core CSS -->
-            <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
             <!-- Custom styles for this template -->
             <link rel="stylesheet" type="text/css" href="css/hydropi_theme.css">
@@ -26,49 +26,54 @@
     include "php/top_menu.php"
 ?>
         <div class="container">
-            <div class="col-xs-12">
-            <!-- Create a panel for the Raspberry Pi functions -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h4 class="text-center" style="color:#FFFFFF">Raspberry Pi Tools</h4>
-                    </div>
-                    <div class="panel-body">
-                        <div class="col-lg-6 col-xs-12 text-center">
-                            <button style="margin-bottom: 20px;" type="button" class="btn btn-md btn-info btn-block" onclick="Shutdown()">Shutdown</button>
+            <div class="row">
+                <div class="col">
+                <!-- Create a card for the Raspberry Pi functions -->
+                    <div class="card border border-dark text-light mb-3" style= "background-color:#033C73"> 
+                        <div class="card-title">
+                            <h4 class="d-flex justify-content-center">Raspberry Pi Tools</h4>
                         </div>
-                        <div class="col-lg-6 col-xs-12 text-center">
-                            <button style="margin-bottom: 20px;" type="button" class="btn btn-md btn-primary btn-block" onclick="Restart()">Restart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12">
-                <!-- Create a panel for the MySQL database delete functions -->
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h4 class="text-center" style="color:#FFFFFF">MySQL Delete Readings</h4>
-                    </div>
-                    <div class="panel-body">
-                        <div class="col-lg-3 col-sm-6 text-center">
-                            <button style="margin-bottom: 20px;" type="button" class="btn btn-md btn-info btn-block" onclick="Delete_MySQL(0)">Delete All</button>
-                        </div>
-                        <div class="col-lg-3 col-sm-6 text-center">
-                            <button style="margin-bottom: 20px;" type="button" class="btn btn-md btn-primary btn-block" onclick="Delete_MySQL(90)">Over 3 Months</button>
-                        </div>
-                        <div class="col-lg-3 col-sm-6 text-center">
-                            <button style="margin-bottom: 20px;"type="button" class="btn btn-md btn-info btn-block" onclick="Delete_MySQL(180)">Over 6 Months</button>
-                        </div>
-                        <div class="col-lg-3 col-sm-6 text-center">
-                            <button type="button" class="btn btn-md btn-primary btn-block" onclick="Delete_MySQL(365)">Over 12 Months</button>
+                        <div class="card-body d-flex justify-content-center">
+                            <div class="col">
+                                <button type="button" class="btn btn-md btn-info btn-block mb-2" onclick="Shutdown()">Shutdown</button>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-md btn-primary btn-block mb-2" onclick="Restart()">Restart</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12">
-                <!-- Create a panel for the current settings -->
-                <div class="panel panel-info">
-                    <div class="panel-heading" style="margin-bottom: 5px;">
-                        <h4 class="text-center" style="color:#FFFFFF">Misc Settings</h4>
+            <div class="row">
+                <div class="col">
+                <!-- Create a card for the MySQL database delete functions -->
+                    <div class="card border border-dark text-light mb-3" style= "background-color:#033C73">
+                        <div class="card-title">
+                            <h4 class="d-flex justify-content-center">MySQL Delete Readings</h4>
+                        </div>
+                        <div class="card-body d-flex justify-content-center">
+                            <div class="col">
+                                <button type="button" class="btn btn-md btn-info btn-block mb-2" onclick="Delete_MySQL(0)">Delete All</button>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-md btn-primary btn-block mb-2" onclick="Delete_MySQL(90)">Over 3 Months</button>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-md btn-info btn-block mb-2" onclick="Delete_MySQL(180)">Over 6 Months</button>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-md btn-primary btn-block mb-2" onclick="Delete_MySQL(365)">Over 12 Months</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                <!-- Create a card for the current settings -->
+                    <div class="card border border-dark text-light mb-3" style= "background-color:#033C73">
+                        <div class="card-title mb-2">
+                            <h4 class="d-flex justify-content-center">Misc Settings</h4>
                     </div>
                         <!-- Create a form to hold the settings -->
                         <form class="form" method="POST" action="/php/update_settings.php">
@@ -85,19 +90,19 @@
                                     else {
                                         $mycolor = "btn-primary";
                                     }
-echo "                              <div class=\"form-group row col-lg-6 col-xs-12 center-block\" style=\"margin-bottom: 5px;\">\n";
-echo "                                  <div class=\"col-lg-3 col-xs-12 text-center\">\n";
+echo "                              <div class=\"form-group row col mb-2\">\n";
+echo "                                  <div class=\"col-sm-4 d-flex justify-content-center\">\n";
 echo "                                      <label class=\"col-form-label\" for=\"text-input\" id=\"" .$title. "_name\"></label>\n";
 echo "                                  </div>\n";
-echo "                                  <div class=\"col-lg-9 col-xs-12\">\n";
-echo "                                      <input name=\"" .$title. "\" class=\"form-control input-md text-center " .$mycolor. "\" id=\"" .$title. "\" autocomplete=\"off\">\n";
+echo "                                  <div class=\"col-sm-8\">\n";
+echo "                                      <input name=\"" .$title. "\" class=\"form-control input-md d-flex justify-content-center " .$mycolor. "\" id=\"" .$title. "\" autocomplete=\"off\">\n";
 echo "                                  </div>\n";
 echo "                              </div>\n";
                                 }
                                 ?>
                                 <!-- Create a button to update the settings values -->
-                                <div style="background-color:#033C73" class="col-xs-12 text-center">
-                                    <button style="margin-bottom:5px; margin-top: 5px;" name="singlebutton" class="btn btn-success" id="singlebutton">Update Settings</button>
+                                <div style="background-color:#033C73" class="col-sm-12 d-flex justify-content-center">
+                                    <button name="singlebutton" class="btn btn-success my-2" id="singlebutton">Update Settings</button>
                                 </div>
 
                             </fieldset>
@@ -117,8 +122,9 @@ echo "                              </div>\n";
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <!-- Custom JavaScript
     ================================================== -->

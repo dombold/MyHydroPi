@@ -2,7 +2,7 @@
 // GET_CURRENT_RELAY_STATES.PHP
     require "hydropi_connect.php";
     // Get relay names and add to an array
-    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'hydropidb' AND TABLE_NAME = 'timer_override'";
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '" .$dbname. "' AND TABLE_NAME = 'timer_override'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         // output data of each row
@@ -22,28 +22,28 @@
     // Update webpage with background color change and current state for each relay
     foreach ($colnames as $title) {
         if (($row[$count]) == "auto") {
-            echo "document.getElementById(\"".$title."_timer_state\").style.backgroundColor = \"#ff6707\";\n";
+            echo "document.getElementById(\"".$title."_timer_state\").style.backgroundColor = \"#ffc107\";\n";
             $sql = "SELECT * FROM timer_override WHERE pk = 2";
             $result = mysqli_query($conn, $sql);
             $row2 = mysqli_fetch_row($result);
             if ($row2[$count] == 0){
                 echo "document.getElementById(\"".$title."_timer_curr\").innerHTML = \"Off\";\n";
-                echo "document.getElementById(\"".$title."_timer_curr\").style.color = \"#e12b31\";\n";
+                echo "document.getElementById(\"".$title."_timer_curr\").style.backgroundColor = \"#dc3545\";\n";
             }
             elseif ($row2[$count] == 1){
                 echo "document.getElementById(\"".$title."_timer_curr\").innerHTML = \"On\";\n";
-                echo "document.getElementById(\"".$title."_timer_curr\").style.color = \"#88c149\";\n";
+                echo "document.getElementById(\"".$title."_timer_curr\").style.backgroundColor = \"#28a745\";\n";
             }
         }
         elseif (($row[$count]) == "on") {
-            echo "document.getElementById(\"".$title."_timer_state\").style.backgroundColor = \"#88c149\";\n";
             echo "document.getElementById(\"".$title."_timer_curr\").innerHTML = \"On\";\n";
-            echo "document.getElementById(\"".$title."_timer_curr\").style.color = \"#88c149\";\n";
+            echo "document.getElementById(\"".$title."_timer_state\").style.backgroundColor = \"#28a745\";\n";
+            echo "document.getElementById(\"".$title."_timer_curr\").style.backgroundColor = \"#28a745\";\n";
         }
         elseif (($row[$count]) == "off") {
-            echo "document.getElementById(\"".$title."_timer_state\").style.backgroundColor = \"#e12b31\";\n";
             echo "document.getElementById(\"".$title."_timer_curr\").innerHTML = \"Off\";\n";
-            echo "document.getElementById(\"".$title."_timer_curr\").style.color = \"#e12b31\";\n";
+            echo "document.getElementById(\"".$title."_timer_state\").style.backgroundColor = \"#dc3545\";\n";
+            echo "document.getElementById(\"".$title."_timer_curr\").style.backgroundColor = \"#dc3545\";\n";
         }
         $count = $count + 1;
     mysqli_free_result($result);
