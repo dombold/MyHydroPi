@@ -31,8 +31,6 @@ echo "        \n<body onload=\"updateClock(); setInterval('updateClock()', 1000)
                             <a class=\"nav-link\" href=\"dosage.php\">Dosage</a></li>
                         <li class=\"nav-item\">
                             <a class=\"nav-link\" href=\"settings.php\">Settings</a></li>
-                        <li class=\"nav-item\">
-                            <a class=\"nav-link\" href=\"https://hydropi.dombold.com/phpmyadmin/\">Database</a></li>
                     </ul>
                 </div><!--.nav-collapse -->
             </div>
