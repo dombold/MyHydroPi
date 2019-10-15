@@ -35,7 +35,7 @@ msg['Subject'] = "Test Alert"
 body = 'This is an extended email test with multiple attachments'
 msg.attach(MIMEText(body, 'plain'))
 
-# Open the attachment and join it to the message
+# Define the attachments and their location
 dir_path = "PathToAttachmentFolder" # eg. /home/pi/documents
 files = ["FileName1.ext", "FileName2.ext", "FileName3.ext"]
 
