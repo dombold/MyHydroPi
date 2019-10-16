@@ -144,7 +144,7 @@ def read_sensors():
                     sensor_reading = (round(float(read_1_wire_temp(key)),
                                  value["accuracy"]))
                 except:
-                    logging.warning("Error reading - {} sensor".format(key, value["name"]))
+                    logging.warning("Error reading - {} sensor".format(value["name"]))
                     sensor_reading = 0
                     
                 all_curr_readings.append([value["name"], sensor_reading])
@@ -163,7 +163,7 @@ def read_sensors():
                     sensor_reading = round(float(device.query("R")),
                                 value["accuracy"])
                 except:
-                    logging.warning("Error reading - {} sensor".format(key, value["name"]))
+                    logging.warning("Error reading - {} sensor".format(value["name"]))
                     sensor_reading = 0
                     
                 all_curr_readings.append([value["name"], sensor_reading])
