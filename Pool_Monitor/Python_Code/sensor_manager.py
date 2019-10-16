@@ -144,7 +144,7 @@ def read_sensors():
                     sensor_reading = (round(float(read_1_wire_temp(key)),
                                  value["accuracy"]))
                 except:
-                    logging.warning("{} - {} Error: {}".format(key, value["sensor_type"], sensor_reading))
+                    logging.warning("Error reading - {} sensor".format(key, value["name"]))
                     sensor_reading = 0
                     
                 all_curr_readings.append([value["name"], sensor_reading])
@@ -163,7 +163,7 @@ def read_sensors():
                     sensor_reading = round(float(device.query("R")),
                                 value["accuracy"])
                 except:
-                    logging.warning("{} - {} {}".format(key, value["sensor_type"], sensor_reading))
+                    logging.warning("Error reading - {} sensor".format(key, value["name"]))
                     sensor_reading = 0
                     
                 all_curr_readings.append([value["name"], sensor_reading])
@@ -179,12 +179,16 @@ def read_sensors():
             if value["sensor_type"] == "atlas_scientific_ec":
                 device = atlas_i2c(value["i2c"])
                 # Set reference temperature value on the sensor
-                device.query("T," + str(ref_temp))
+                try:
+                    device.query("T," + str(ref_temp))
+                except:
+                    logging.warning("Failed to set Ref Temp on {} board".format(value["name"]))
+                
                 try:
                     sensor_reading = (round(((float(device.query("R"))) *
                         value["ppm_multiplier"]), value["accuracy"]))
                 except:
-                    logging.warning("{} - {} {}".format(key, value["sensor_type"], sensor_reading))
+                    logging.warning("Error reading - {} sensor".format(value["name"]))
                     sensor_reading = 0
                     
                 all_curr_readings.append([value["name"], sensor_reading])
@@ -200,17 +204,16 @@ def read_sensors():
                 # if statement added for latest Atlas firmware, no temp reference required
                 # for the ORP sensor
                 if value["name"] == "ph":
-                    device.query("T," + str(ref_temp))
+                    try:
+                        device.query("T," + str(ref_temp))
+                    except:
+                        logging.warning("Failed to set Ref Temp on {} board".format(value["name"]))
                 try:
                     sensor_reading = round(float(device.query("R")),
                                 value["accuracy"])
                 except:
-                    if value["name"] == "ph":
-                        logging.warning("{} - {}_{} {}".format(key, value["sensor_type"], value["name"], sensor_reading))
-                        sensor_reading = 0
-                    elif value["name"] == "orp":
-                        logging.warning("{} - {}_{} {}".format(key, value["sensor_type"], value["name"], sensor_reading))
-                        sensor_reading = 0
+                    logging.warning("Error reading - {} sensor".format(value["name"]))
+                    sensor_reading = 0
                         
                 all_curr_readings.append([value["name"], sensor_reading])
 
