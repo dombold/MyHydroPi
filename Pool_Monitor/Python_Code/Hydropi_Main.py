@@ -170,8 +170,12 @@ try:
             email_time_delay = delays["email_reset_delay"]
             pause_time = delays["pause_reset_delay"]
 
+            # Check for pause, if false read the sensors
+
             if delays["pause_readings"] == 0:
                 alert_readings = sensors.read_sensors()
+
+                # Check readings, set alerts and send email if required
 
                 if var.alert_check is True and var.email_sent is True:
                     var.email_sent = emman.reset_email_sent_flag_if_alerts_clear(alert_readings, var.email_sent)
@@ -188,6 +192,8 @@ try:
                         var.email_sent = True
                         email_sent_time = datetime.datetime.now()
 
+            # Check for pause, if true check if pause time has passed and reset
+
             elif delays["pause_readings"] == 1:
                 if var.new_pause is True:
                     logging.info("Readings have been paused")
@@ -199,6 +205,9 @@ try:
                     var.new_pause = True
                     logging.info("Reading sensors again")
 
+            # Check if email has been sent, if true check if the email delay
+            # time has passed and reset
+            
             if var.email_sent is True:
                 if datetime.datetime.now() >= (email_sent_time + 
                    datetime.timedelta(seconds=email_time_delay)):
