@@ -1,0 +1,16 @@
+Hi
+
+This is your Pool
+
+You should know that the following sensor(s) are indicating that there is a problem that needs your
+attention
+
+{}
+
+Please check this by logging into
+
+www.YourWebsite.com
+
+Regards
+
+Your HydroPi
