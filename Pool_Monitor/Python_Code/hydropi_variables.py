@@ -18,8 +18,8 @@ fromaddress = "yourFromEmailAddress"
 emailpassword = "yourFromEmailPassword"
 emailserver = 'smtp.gmail.com'
 emailserverport = 587
-textfile = "path/ToEmail/Textfile.txt"
-htmlfile = "path/ToEmail/Htmlfile.html"
+textfile = "path/ToEmail/body.txt"
+htmlfile = "path/ToEmail/body.html"
 
 # Configuration Settings
 
